@@ -45,6 +45,11 @@ export default new Vuex.Store({
       })
       state.favouritesLength = data.docs.length;
     },
+    sortByYear             : (state, data) => {
+      state.movies = data.sort((a,b) => {
+        parseInt(new Date(a.releaseDate)) - parseInt(new Date(b.releaseDate))
+      })
+    },
     toggleMoviesLoader     : (state, loader = false) => {
       state.moviesLoader = loader;
     },
@@ -61,10 +66,8 @@ export default new Vuex.Store({
       commit('toggleMoviesLoader', true)
       await axios.get('https://output.jsbin.com/wokedotuki.json')
         .then(response => {
-          setTimeout(() => {
             commit('toggleMoviesLoader')
             commit('storeMovies', response.data.data);
-          }, 2000)
         })
     },
     async fetchSingleMovie({ commit }, title) {
@@ -95,6 +98,16 @@ export default new Vuex.Store({
         commit('storeFavourites', querySnapshot);
       });
     },
+
+    async fetchForSort({ commit }) {
+      commit('toggleMoviesLoader', true)
+      await axios.get('https://output.jsbin.com/wokedotuki.json')
+        .then(response => {
+            commit('toggleMoviesLoader')
+            commit('sortByYear', response.data.data);
+        })
+    },
+    
     changeGridColumns({commit}) {
       commit('toggleGridColumns');
     }

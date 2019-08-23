@@ -11,7 +11,7 @@
     <div v-if="path === '/'" class="container fixed-nav-container">
       <div class="fixed-nav">
         <div class=".sort">
-          <font-awesome-icon class="navbar-icon" icon="sort"></font-awesome-icon>
+          <font-awesome-icon class="navbar-icon" icon="sort" @click="fetchForSort"></font-awesome-icon>
         </div>
         <div class="grid-option">
           <font-awesome-icon class="navbar-icon" icon="th" @click="changeGridColumns"></font-awesome-icon>
@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["changeGridColumns"]),
+    ...mapActions(["changeGridColumns", "fetchForSort"]),
     filterMovies() {
       this.$store.dispatch("filterMovies", this.search);
     }
